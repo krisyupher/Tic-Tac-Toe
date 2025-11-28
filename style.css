@@ -71,21 +71,25 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     color: var(--color-text-primary);
-    overflow-x: hidden;
-    min-height: 100vh;
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+    margin: 0;
+    padding: 0;
     background: linear-gradient(135deg,
-            #0a0e27 0%,
-            #1a1f3a 25%,
-            #2d1b4e 50%,
-            #1a1f3a 75%,
-            #0a0e27 100%);
+            #1e1b4b 0%,
+            #312e81 25%,
+            #4c1d95 50%,
+            #5b21b6 75%,
+            #6d28d9 100%);
     background-size: 400% 400%;
     animation: gradientShift 15s ease infinite;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: var(--spacing-md);
-    position: relative;
+    position: fixed;
+    top: 0;
+    left: 0;
 }
 
 /* Animated gradient background */
@@ -111,7 +115,7 @@ body::before {
     left: -50%;
     width: 200%;
     height: 200%;
-    background: radial-gradient(circle, rgba(99, 102, 241, 0.1) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(139, 92, 246, 0.15) 0%, transparent 70%);
     animation: rotate 30s linear infinite;
     pointer-events: none;
     z-index: 0;
@@ -149,7 +153,6 @@ h6 {
     align-items: center;
     gap: var(--spacing-xl);
     flex-wrap: wrap;
-    padding: var(--spacing-md);
     position: relative;
     z-index: 1;
 }
@@ -194,7 +197,7 @@ h6 {
 
 .grid:hover {
     transform: translateY(-2px);
-    box-shadow: var(--shadow-lg), 0 0 40px rgba(99, 102, 241, 0.5);
+    box-shadow: var(--shadow-lg), 0 0 40px rgba(139, 92, 246, 0.5);
 }
 
 /* ============================================
@@ -218,7 +221,7 @@ h6 {
     font-family: "Rock Salt", cursive;
     background: rgba(255, 255, 255, 0.03);
     border-radius: var(--radius-md);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(134, 91, 202, 0.53);
     cursor: pointer;
     transition: all var(--transition-normal);
     position: relative;
@@ -230,7 +233,7 @@ h6 {
     background: rgba(255, 255, 255, 0.08);
     border-color: rgba(255, 255, 255, 0.15);
     transform: scale(1.05);
-    box-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
+    box-shadow: 0 0 20px rgba(139, 92, 246, 0.4);
 }
 
 /* Filled cells - no hover effect */
@@ -398,7 +401,7 @@ h6 {
 
 .btn-restart:hover {
     transform: translateY(-2px);
-    box-shadow: var(--shadow-lg), 0 0 30px rgba(99, 102, 241, 0.5);
+    box-shadow: var(--shadow-lg), 0 0 30px rgba(139, 92, 246, 0.6);
 }
 
 .btn-restart:active {
@@ -414,7 +417,7 @@ h6 {
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: rgba(10, 14, 39, 0.95);
+    background: rgba(30, 27, 75, 0.95);
     backdrop-filter: blur(20px);
     display: none;
     flex-direction: column;

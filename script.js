@@ -79,7 +79,7 @@ function checkWinner() {
     }
 }
 
-// Draw winner line
+// Draw winner line - FASTER ANIMATION
 function drawWinnerLine(pattern) {
     const cellSize = canvas.width / 3;
     const [[r1, c1], [r2, c2]] = [pattern[0], pattern[2]];
@@ -90,10 +90,14 @@ function drawWinnerLine(pattern) {
     const y2 = r2 * cellSize + cellSize / 2;
 
     let progress = 0;
+    const speed = 0.05; // Faster animation (was 0.02)
+
     const animate = () => {
         if (progress >= 1) return;
 
-        progress += 0.02;
+        progress += speed;
+        if (progress > 1) progress = 1;
+
         const currentX = x1 + (x2 - x1) * progress;
         const currentY = y1 + (y2 - y1) * progress;
 
