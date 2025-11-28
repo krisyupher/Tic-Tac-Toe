@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Play an exciting game of Tic-Tac-Toe! First to win 3 rounds becomes the champion. Beautiful design with smooth animations.">
+    <title>Tic-Tac-Toe - Score 3</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Rock+Salt&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="app">
+        <div class="grid-container">
+            <h2>Score 3</h2>
+            <div class="grid">
+                <canvas id="line-winner" width="500" height="500"></canvas>
+                <div class="row">
+                    <div class="cell" data-row="0" data-col="0"></div>
+                    <div class="cell" data-row="0" data-col="1"></div>
+                    <div class="cell" data-row="0" data-col="2"></div>
+                </div>
+                <div class="row">
+                    <div class="cell" data-row="1" data-col="0"></div>
+                    <div class="cell" data-row="1" data-col="1"></div>
+                    <div class="cell" data-row="1" data-col="2"></div>
+                </div>
+                <div class="row">
+                    <div class="cell" data-row="2" data-col="0"></div>
+                    <div class="cell" data-row="2" data-col="1"></div>
+                    <div class="cell" data-row="2" data-col="2"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="score-panel">
+            <div class="score-row">
+                <span>CIRCLE</span>
+                <div class="score-marks" id="score-o"></div>
+            </div>
+            <div class="score-row">
+                <span>TAILS</span>
+                <div class="score-marks" id="score-x"></div>
+            </div>
+            <button class="btn-restart" id="btn-restart">Reiniciar</button>
+        </div>
+    </div>
+
+    <div class="champion-overlay" id="champion-overlay">
+        <div class="champion-text" id="champion-text"></div>
+        <button class="btn-restart" id="btn-return">Return</button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,550 @@
+/* ============================================
+   CSS RESET & BASE STYLES
+   ============================================ */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* ============================================
+   CSS VARIABLES - DESIGN SYSTEM
+   ============================================ */
+:root {
+    /* Colors - Vibrant Dark Mode Palette */
+    --color-bg-primary: #0a0e27;
+    --color-bg-secondary: #1a1f3a;
+    --color-accent-primary: #6366f1;
+    --color-accent-secondary: #ec4899;
+    --color-accent-tertiary: #8b5cf6;
+    --color-success: #10b981;
+    --color-warning: #f59e0b;
+    --color-danger: #ef4444;
+
+    /* Player Colors */
+    --color-player-x: #ec4899;
+    --color-player-o: #06b6d4;
+
+    /* Text Colors */
+    --color-text-primary: #f8fafc;
+    --color-text-secondary: #cbd5e1;
+    --color-text-muted: #94a3b8;
+
+    /* Glassmorphism */
+    --glass-bg: rgba(255, 255, 255, 0.05);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --glass-shadow: rgba(0, 0, 0, 0.3);
+
+    /* Spacing */
+    --spacing-xs: 0.5rem;
+    --spacing-sm: 1rem;
+    --spacing-md: 1.5rem;
+    --spacing-lg: 2rem;
+    --spacing-xl: 3rem;
+
+    /* Border Radius */
+    --radius-sm: 0.5rem;
+    --radius-md: 1rem;
+    --radius-lg: 1.5rem;
+    --radius-xl: 2rem;
+
+    /* Transitions */
+    --transition-fast: 150ms ease-in-out;
+    --transition-normal: 300ms ease-in-out;
+    --transition-slow: 500ms ease-in-out;
+
+    /* Shadows */
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.1);
+    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.2);
+    --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.3);
+    --shadow-glow: 0 0 20px rgba(99, 102, 241, 0.4);
+}
+
+/* ============================================
+   GLOBAL STYLES
+   ============================================ */
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+        'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: var(--color-text-primary);
+    overflow-x: hidden;
+    min-height: 100vh;
+    background: linear-gradient(135deg,
+            #0a0e27 0%,
+            #1a1f3a 25%,
+            #2d1b4e 50%,
+            #1a1f3a 75%,
+            #0a0e27 100%);
+    background-size: 400% 400%;
+    animation: gradientShift 15s ease infinite;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-md);
+    position: relative;
+}
+
+/* Animated gradient background */
+@keyframes gradientShift {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* Ambient background effects */
+body::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(99, 102, 241, 0.1) 0%, transparent 70%);
+    animation: rotate 30s linear infinite;
+    pointer-events: none;
+    z-index: 0;
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Typography */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+/* ============================================
+   APP LAYOUT
+   ============================================ */
+.app {
+    width: 100%;
+    max-width: 1400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--spacing-xl);
+    flex-wrap: wrap;
+    padding: var(--spacing-md);
+    position: relative;
+    z-index: 1;
+}
+
+/* ============================================
+   GAME CONTAINER
+   ============================================ */
+.grid-container {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+.grid-container h2 {
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--color-accent-primary), var(--color-accent-secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: 0 0 30px rgba(99, 102, 241, 0.3);
+    margin: 0;
+    letter-spacing: 0.05em;
+}
+
+/* ============================================
+   GAME GRID
+   ============================================ */
+.grid {
+    width: min(90vw, 500px);
+    height: min(90vw, 500px);
+    position: relative;
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    border-radius: var(--radius-lg);
+    border: 2px solid var(--glass-border);
+    box-shadow: var(--shadow-lg), var(--shadow-glow);
+    padding: var(--spacing-sm);
+    transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+}
+
+.grid:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg), 0 0 40px rgba(99, 102, 241, 0.5);
+}
+
+/* ============================================
+   GRID ROWS
+   ============================================ */
+.row {
+    display: flex;
+    height: 33.333%;
+    gap: var(--spacing-sm);
+}
+
+/* ============================================
+   GAME CELLS
+   ============================================ */
+.cell {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: clamp(3rem, 8vw, 5rem);
+    font-family: "Rock Salt", cursive;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: var(--radius-md);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    cursor: pointer;
+    transition: all var(--transition-normal);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Hover effect for empty cells */
+.cell:empty:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.15);
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
+}
+
+/* Filled cells - no hover effect */
+.cell:not(:empty) {
+    cursor: default;
+    animation: cellPop 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+/* Cell pop animation */
+@keyframes cellPop {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+
+    50% {
+        transform: scale(1.2);
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Player X styling */
+.cell.player-x {
+    color: var(--color-player-x);
+    text-shadow: 0 0 20px rgba(236, 72, 153, 0.6);
+}
+
+/* Player O styling */
+.cell.player-o {
+    color: var(--color-player-o);
+    text-shadow: 0 0 20px rgba(6, 182, 212, 0.6);
+}
+
+/* ============================================
+   WINNER LINE CANVAS
+   ============================================ */
+#line-winner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 10;
+    border-radius: var(--radius-lg);
+}
+
+/* ============================================
+   SCORE PANEL
+   ============================================ */
+.score-panel {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+    padding: var(--spacing-lg);
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    border-radius: var(--radius-lg);
+    border: 2px solid var(--glass-border);
+    box-shadow: var(--shadow-md);
+    min-width: 280px;
+}
+
+.score-row {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-sm);
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: var(--radius-md);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: all var(--transition-normal);
+}
+
+.score-row:hover {
+    background: rgba(255, 255, 255, 0.05);
+    transform: translateX(4px);
+}
+
+.score-row span {
+    font-size: 1.25rem;
+    font-weight: 600;
+    min-width: 100px;
+    color: var(--color-text-secondary);
+    letter-spacing: 0.05em;
+}
+
+.score-marks {
+    display: flex;
+    gap: 0.25rem;
+}
+
+.score-mark {
+    font-size: 1.5rem;
+    font-family: "Rock Salt", cursive;
+    animation: scoreAppear 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+/* Score appearance animation */
+@keyframes scoreAppear {
+    0% {
+        transform: scale(0) rotate(-180deg);
+        opacity: 0;
+    }
+
+    100% {
+        transform: scale(1) rotate(0deg);
+        opacity: 1;
+    }
+}
+
+/* Player-specific colors in score */
+.score-mark.player-x {
+    color: var(--color-player-x);
+    text-shadow: 0 0 10px rgba(236, 72, 153, 0.5);
+}
+
+.score-mark.player-o {
+    color: var(--color-player-o);
+    text-shadow: 0 0 10px rgba(6, 182, 212, 0.5);
+}
+
+/* ============================================
+   BUTTONS
+   ============================================ */
+.btn-restart {
+    background: linear-gradient(135deg, var(--color-accent-primary), var(--color-accent-secondary));
+    border: none;
+    border-radius: var(--radius-md);
+    padding: var(--spacing-sm) var(--spacing-lg);
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    cursor: pointer;
+    outline: none;
+    transition: all var(--transition-normal);
+    box-shadow: var(--shadow-md);
+    position: relative;
+    overflow: hidden;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.btn-restart::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    transform: translate(-50%, -50%);
+    transition: width var(--transition-slow), height var(--transition-slow);
+}
+
+.btn-restart:hover::before {
+    width: 300px;
+    height: 300px;
+}
+
+.btn-restart:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg), 0 0 30px rgba(99, 102, 241, 0.5);
+}
+
+.btn-restart:active {
+    transform: translateY(0);
+}
+
+/* ============================================
+   CHAMPION OVERLAY
+   ============================================ */
+.champion-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(10, 14, 39, 0.95);
+    backdrop-filter: blur(20px);
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-xl);
+    z-index: 100;
+    animation: overlayFadeIn 0.5s ease-out;
+    padding: var(--spacing-lg);
+}
+
+.champion-overlay.show {
+    display: flex;
+}
+
+@keyframes overlayFadeIn {
+    from {
+        opacity: 0;
+        backdrop-filter: blur(0px);
+    }
+
+    to {
+        opacity: 1;
+        backdrop-filter: blur(20px);
+    }
+}
+
+.champion-overlay::before {
+    content: '🎉';
+    position: absolute;
+    font-size: 10rem;
+    opacity: 0.1;
+    animation: celebrate 2s ease-in-out infinite;
+}
+
+@keyframes celebrate {
+
+    0%,
+    100% {
+        transform: scale(1) rotate(0deg);
+    }
+
+    50% {
+        transform: scale(1.2) rotate(10deg);
+    }
+}
+
+.champion-text {
+    font-size: clamp(2rem, 8vw, 5rem);
+    font-weight: 700;
+    background: linear-gradient(135deg,
+            var(--color-accent-primary),
+            var(--color-accent-secondary),
+            var(--color-accent-tertiary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-align: center;
+    animation: championPulse 2s ease-in-out infinite;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+@keyframes championPulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+        filter: brightness(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+        filter: brightness(1.2);
+    }
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+@media (max-width: 768px) {
+    .app {
+        flex-direction: column;
+        gap: var(--spacing-lg);
+    }
+
+    .score-panel {
+        width: 100%;
+        max-width: min(90vw, 500px);
+    }
+
+    .grid-container h2 {
+        font-size: 2rem;
+    }
+
+    .cell {
+        font-size: 3rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .grid {
+        padding: 0.25rem;
+    }
+
+    .row {
+        gap: 0.25rem;
+    }
+
+    .cell {
+        font-size: 2.5rem;
+        border-radius: var(--radius-sm);
+    }
+
+    .score-row span {
+        font-size: 1rem;
+        min-width: 80px;
+    }
+
+    .score-mark {
+        font-size: 1.25rem;
+    }
+
+    .btn-restart {
+        font-size: 1rem;
+        padding: var(--spacing-sm) var(--spacing-md);
+    }
+}
+
+/* Hidden class */
+.hidden {
+    display: none !important;
+}

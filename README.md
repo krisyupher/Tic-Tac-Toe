@@ -1,71 +1,177 @@
-https://krisyupher.github.io/tres-en-linea/
+# Tic-Tac-Toe - Score 3 🎮
 
+A modern, beautifully designed Tic-Tac-Toe game built with vanilla HTML, CSS, and JavaScript. First player to win 3 rounds becomes the champion!
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+**Live Demo:** [https://krisyupher.github.io/tres-en-linea/](https://krisyupher.github.io/tres-en-linea/)
 
-## Available Scripts
+![Tic-Tac-Toe Game](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
+![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
 
-In the project directory, you can run:
+## ✨ Features
 
-### `npm start`
+- **🎨 Modern UI/UX Design**
+  - Glassmorphism effects with backdrop blur
+  - Animated gradient backgrounds
+  - Smooth transitions and micro-animations
+  - Player-specific colors (Pink for X, Cyan for O)
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- **🎯 Game Features**
+  - Classic Tic-Tac-Toe gameplay
+  - Best of 3 scoring system
+  - Animated winner line drawing
+  - Champion celebration overlay
+  - Score tracking with visual feedback
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+- **📱 Responsive Design**
+  - Mobile-first approach
+  - Works on all screen sizes
+  - Touch-friendly interface
+  - Optimized for desktop, tablet, and mobile
 
-### `npm test`
+- **⚡ Performance**
+  - No dependencies required
+  - Instant loading
+  - Smooth 60fps animations
+  - Lightweight (~20KB total)
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 🚀 Getting Started
 
-### `npm run build`
+### Prerequisites
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- Any modern web browser (Chrome, Firefox, Safari, Edge)
+- No installation or build process required!
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+### Running the Game
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Simply open `index.html` in your web browser:
 
-### `npm run eject`
+```bash
+# Option 1: Double-click index.html
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+# Option 2: Use a local server (optional)
+python -m http.server 8000
+# Then visit http://localhost:8000
+```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## 📁 Project Structure
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+```
+tres-en-linea/
+├── index.html      # Main HTML file
+├── style.css       # All styles and animations
+├── script.js       # Game logic and interactions
+└── README.md       # This file
+```
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## 🎮 How to Play
 
-## Learn More
+1. **Start Playing:** Click any cell to place your mark (X starts first)
+2. **Win a Round:** Get three in a row (horizontal, vertical, or diagonal)
+3. **Score Points:** Each round win adds to your score
+4. **Become Champion:** First player to win 3 rounds wins the game!
+5. **Restart:** Click "Reiniciar" to start a new round
+6. **New Game:** Click "Return" on the champion screen to reset everything
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## 🎨 Design Highlights
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Color Palette
+- **Background:** Deep space gradient (#0a0e27 → #2d1b4e)
+- **Player X:** Hot Pink (#ec4899)
+- **Player O:** Cyan (#06b6d4)
+- **Accents:** Indigo (#6366f1), Purple (#8b5cf6)
 
-### Code Splitting
+### Animations
+- Cell pop-in effect when placing marks
+- Smooth winner line drawing with glow
+- Score mark entrance animations
+- Button ripple effects on hover
+- Champion overlay celebration
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+### Typography
+- **UI Text:** Inter (clean, modern sans-serif)
+- **Game Marks:** Rock Salt (playful, handwritten style)
 
-### Analyzing the Bundle Size
+## 🛠️ Technical Details
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+### Technologies Used
+- **HTML5** - Semantic structure
+- **CSS3** - Modern styling with custom properties
+- **JavaScript (ES6+)** - Game logic and DOM manipulation
+- **Canvas API** - Winner line animation
 
-### Making a Progressive Web App
+### Key Features
+- CSS Custom Properties for theming
+- CSS Grid and Flexbox for layouts
+- RequestAnimationFrame for smooth animations
+- Event delegation for efficient event handling
+- Responsive design with media queries
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+### Browser Support
+- Chrome/Edge (latest)
+- Firefox (latest)
+- Safari (latest)
+- Mobile browsers (iOS Safari, Chrome Mobile)
 
-### Advanced Configuration
+## 📝 Code Highlights
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+### CSS Variables
+```css
+:root {
+  --color-player-x: #ec4899;
+  --color-player-o: #06b6d4;
+  --glass-bg: rgba(255, 255, 255, 0.05);
+  --transition-normal: 300ms ease-in-out;
+}
+```
 
-### Deployment
+### Winner Detection
+```javascript
+const winPatterns = [
+  [[0,0], [0,1], [0,2]], // Rows
+  [[0,0], [1,0], [2,0]], // Columns
+  [[0,0], [1,1], [2,2]], // Diagonals
+];
+```
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
+### Animated Winner Line
+```javascript
+// Smooth canvas animation using requestAnimationFrame
+const animate = () => {
+  ctx.lineTo(currentX, currentY);
+  ctx.shadowBlur = 20;
+  ctx.stroke();
+  requestAnimationFrame(animate);
+};
+```
 
-### `npm run build` fails to minify
+## 🎯 Future Enhancements
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+- [ ] AI opponent with difficulty levels
+- [ ] Sound effects and background music
+- [ ] Customizable themes
+- [ ] Multiplayer over network
+- [ ] Game statistics and history
+- [ ] Accessibility improvements (ARIA labels, keyboard navigation)
+
+## 📄 License
+
+This project is open source and available under the [MIT License](LICENSE).
+
+## 👤 Author
+
+**Krisyupher**
+- GitHub: [@krisyupher](https://github.com/krisyupher)
+- Project Link: [https://github.com/krisyupher/tres-en-linea](https://github.com/krisyupher/tres-en-linea)
+
+## 🙏 Acknowledgments
+
+- Inspired by classic Tic-Tac-Toe gameplay
+- Modern design trends: Glassmorphism, gradient backgrounds
+- Google Fonts for Inter and Rock Salt typefaces
+
+---
+
+**Enjoy the game! 🎉**
+
+If you like this project, please give it a ⭐ on GitHub!
