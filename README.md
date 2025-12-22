@@ -1,12 +1,13 @@
-# Tic-Tac-Toe - Score 3 🎮
+# 3D Tic-Tac-Toe - Score 3 🎮
 
-A modern, beautifully designed Tic-Tac-Toe game built with vanilla HTML, CSS, and JavaScript. First player to win 3 rounds becomes the champion!
+A modern, beautifully designed 3D Tic-Tac-Toe game built with HTML, CSS, JavaScript, and Three.js. Play in a stunning 3x3x3 cube with 49 possible winning patterns. First player to win 3 rounds becomes the champion!
 
 **Live Demo:** [https://krisyupher.github.io/tres-en-linea/](https://krisyupher.github.io/tres-en-linea/)
 
 ![Tic-Tac-Toe Game](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
 ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
+![Three.js](https://img.shields.io/badge/Three.js-000000?style=for-the-badge&logo=three.js&logoColor=white)
 
 ## ✨ Features
 
@@ -15,11 +16,14 @@ A modern, beautifully designed Tic-Tac-Toe game built with vanilla HTML, CSS, an
   - Animated gradient backgrounds
   - Smooth transitions and micro-animations
   - Player-specific colors (Pink for X, Cyan for O)
+  - Interactive 3D cube visualization
 
 - **🎯 Game Features**
-  - Classic Tic-Tac-Toe gameplay
+  - 3D Tic-Tac-Toe gameplay in a 3x3x3 cube
+  - 49 possible winning patterns (rows, columns, diagonals, and space diagonals)
   - Best of 3 scoring system
-  - Animated winner line drawing
+  - Animated 3D winner line drawing
+  - Rotate and explore the cube with mouse/touch
   - Champion celebration overlay
   - Score tracking with visual feedback
 
@@ -30,16 +34,16 @@ A modern, beautifully designed Tic-Tac-Toe game built with vanilla HTML, CSS, an
   - Optimized for desktop, tablet, and mobile
 
 - **⚡ Performance**
-  - No dependencies required
-  - Instant loading
+  - Three.js for hardware-accelerated 3D rendering
+  - WebGL-powered graphics
   - Smooth 60fps animations
-  - Lightweight (~20KB total)
+  - Optimized raycasting for click detection
 
 ## 🚀 Getting Started
 
 ### Prerequisites
 
-- Any modern web browser (Chrome, Firefox, Safari, Edge)
+- Any modern web browser with WebGL support (Chrome, Firefox, Safari, Edge)
 - No installation or build process required!
 
 ### Running the Game
@@ -58,20 +62,22 @@ python -m http.server 8000
 
 ```
 tres-en-linea/
-├── index.html      # Main HTML file
+├── index.html      # Main HTML file with Three.js integration
 ├── style.css       # All styles and animations
-├── script.js       # Game logic and interactions
+├── script.js       # 3D game logic, Three.js scene, and interactions
+├── CLAUDE.md       # Development guide for Claude Code
 └── README.md       # This file
 ```
 
 ## 🎮 How to Play
 
-1. **Start Playing:** Click any cell to place your mark (X starts first)
-2. **Win a Round:** Get three in a row (horizontal, vertical, or diagonal)
-3. **Score Points:** Each round win adds to your score
-4. **Become Champion:** First player to win 3 rounds wins the game!
-5. **Restart:** Click "Reiniciar" to start a new round
-6. **New Game:** Click "Return" on the champion screen to reset everything
+1. **Rotate the Cube:** Drag to rotate and view all sides of the 3D cube
+2. **Start Playing:** Click any visible cell to place your mark (X starts first)
+3. **Win a Round:** Get three in a row in any direction (horizontal, vertical, diagonal, or through space)
+4. **Score Points:** Each round win adds to your score
+5. **Become Champion:** First player to win 3 rounds wins the game!
+6. **Restart:** Click "Restart" to start a new round
+7. **New Game:** Click "Return" on the champion screen to reset everything
 
 ## 🎨 Design Highlights
 
@@ -96,22 +102,26 @@ tres-en-linea/
 
 ### Technologies Used
 - **HTML5** - Semantic structure
-- **CSS3** - Modern styling with custom properties
-- **JavaScript (ES6+)** - Game logic and DOM manipulation
-- **Canvas API** - Winner line animation
+- **CSS3** - Modern styling with custom properties and glassmorphism
+- **JavaScript (ES6+)** - Game logic and 3D interactions
+- **Three.js** - 3D rendering, scene management, and animations
+- **WebGL** - Hardware-accelerated graphics
 
 ### Key Features
 - CSS Custom Properties for theming
-- CSS Grid and Flexbox for layouts
-- RequestAnimationFrame for smooth animations
-- Event delegation for efficient event handling
+- CSS Grid and Flexbox for UI layouts
+- Three.js Scene, Camera, and Renderer setup
+- OrbitControls for intuitive 3D navigation
+- Raycasting for precise 3D click detection
+- 49 winning pattern algorithm
+- RequestAnimationFrame for 60fps rendering
 - Responsive design with media queries
 
 ### Browser Support
-- Chrome/Edge (latest)
-- Firefox (latest)
-- Safari (latest)
-- Mobile browsers (iOS Safari, Chrome Mobile)
+- Chrome/Edge (latest) - Full WebGL support
+- Firefox (latest) - Full WebGL support
+- Safari (latest) - Full WebGL support
+- Mobile browsers with WebGL (iOS Safari, Chrome Mobile)
 
 ## 📝 Code Highlights
 
@@ -125,34 +135,46 @@ tres-en-linea/
 }
 ```
 
-### Winner Detection
+### 3D Board Structure
 ```javascript
-const winPatterns = [
-  [[0,0], [0,1], [0,2]], // Rows
-  [[0,0], [1,0], [2,0]], // Columns
-  [[0,0], [1,1], [2,2]], // Diagonals
+let board = [
+  [["-", "-", "-"], ["-", "-", "-"], ["-", "-", "-"]], // Layer 0
+  [["-", "-", "-"], ["-", "-", "-"], ["-", "-", "-"]], // Layer 1
+  [["-", "-", "-"], ["-", "-", "-"], ["-", "-", "-"]]  // Layer 2
 ];
 ```
 
-### Animated Winner Line
+### 49 Win Patterns Generation
 ```javascript
-// Smooth canvas animation using requestAnimationFrame
-const animate = () => {
-  ctx.lineTo(currentX, currentY);
-  ctx.shadowBlur = 20;
-  ctx.stroke();
-  requestAnimationFrame(animate);
-};
+// Generates all possible winning patterns:
+// - 9 horizontal rows + 9 vertical columns + 6 face diagonals (per layer)
+// - 9 vertical pillars (through layers)
+// - 12 vertical face diagonals (XZ and YZ planes)
+// - 4 space diagonals (corner to corner)
+function generateWinPatterns() {
+  // Returns array of 49 patterns
+  // Format: [[layer, row, col], [layer, row, col], [layer, row, col]]
+}
+```
+
+### 3D Click Detection
+```javascript
+// Raycasting for precise 3D interaction
+raycaster.setFromCamera(mouse, camera);
+const intersects = raycaster.intersectObjects(cubeGroup.children, true);
+const { layer, row, col } = mesh.userData;
 ```
 
 ## 🎯 Future Enhancements
 
-- [ ] AI opponent with difficulty levels
+- [ ] AI opponent with difficulty levels (3D strategy)
 - [ ] Sound effects and background music
-- [ ] Customizable themes
+- [ ] Customizable themes and cube colors
 - [ ] Multiplayer over network
 - [ ] Game statistics and history
-- [ ] Accessibility improvements (ARIA labels, keyboard navigation)
+- [ ] Keyboard navigation for 3D cube
+- [ ] VR support for immersive gameplay
+- [ ] Different cube sizes (4x4x4, 5x5x5)
 
 ## 📄 License
 

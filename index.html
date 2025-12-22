@@ -10,6 +10,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Rock+Salt&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
 </head>
 
 <body>
@@ -17,23 +19,9 @@
         <div class="grid-container">
             <h2>Score 3</h2>
             <div class="grid">
-                <canvas id="line-winner" width="500" height="500"></canvas>
-                <div class="row">
-                    <div class="cell" data-row="0" data-col="0"></div>
-                    <div class="cell" data-row="0" data-col="1"></div>
-                    <div class="cell" data-row="0" data-col="2"></div>
-                </div>
-                <div class="row">
-                    <div class="cell" data-row="1" data-col="0"></div>
-                    <div class="cell" data-row="1" data-col="1"></div>
-                    <div class="cell" data-row="1" data-col="2"></div>
-                </div>
-                <div class="row">
-                    <div class="cell" data-row="2" data-col="0"></div>
-                    <div class="cell" data-row="2" data-col="1"></div>
-                    <div class="cell" data-row="2" data-col="2"></div>
-                </div>
+                <canvas id="game-canvas"></canvas>
             </div>
+            <p class="game-instructions">Hold SPACE to rotate • Scroll to zoom (hides front layer) • Click cells to play</p>
         </div>
 
         <div class="score-panel">
@@ -45,7 +33,7 @@
                 <span>TAILS</span>
                 <div class="score-marks" id="score-x"></div>
             </div>
-            <button class="btn-restart" id="btn-restart">Reiniciar</button>
+            <button class="btn-restart" id="btn-restart">Restart</button>
         </div>
     </div>
 

@@ -191,7 +191,7 @@ h6 {
     border-radius: var(--radius-lg);
     border: 2px solid var(--glass-border);
     box-shadow: var(--shadow-lg), var(--shadow-glow);
-    padding: var(--spacing-sm);
+    overflow: hidden;
     transition: transform var(--transition-normal), box-shadow var(--transition-normal);
 }
 
@@ -200,89 +200,31 @@ h6 {
     box-shadow: var(--shadow-lg), 0 0 40px rgba(139, 92, 246, 0.5);
 }
 
-/* ============================================
-   GRID ROWS
-   ============================================ */
-.row {
-    display: flex;
-    height: 33.333%;
-    gap: var(--spacing-sm);
-}
 
 /* ============================================
-   GAME CELLS
+   3D GAME CANVAS
    ============================================ */
-.cell {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: clamp(3rem, 8vw, 5rem);
-    font-family: "Rock Salt", cursive;
-    background: rgba(255, 255, 255, 0.03);
-    border-radius: var(--radius-md);
-    border: 1px solid rgba(134, 91, 202, 0.53);
-    cursor: pointer;
-    transition: all var(--transition-normal);
-    position: relative;
-    overflow: hidden;
-}
-
-/* Hover effect for empty cells */
-.cell:empty:hover {
-    background: rgba(255, 255, 255, 0.08);
-    border-color: rgba(255, 255, 255, 0.15);
-    transform: scale(1.05);
-    box-shadow: 0 0 20px rgba(139, 92, 246, 0.4);
-}
-
-/* Filled cells - no hover effect */
-.cell:not(:empty) {
-    cursor: default;
-    animation: cellPop 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-}
-
-/* Cell pop animation */
-@keyframes cellPop {
-    0% {
-        transform: scale(0);
-        opacity: 0;
-    }
-
-    50% {
-        transform: scale(1.2);
-    }
-
-    100% {
-        transform: scale(1);
-        opacity: 1;
-    }
-}
-
-/* Player X styling */
-.cell.player-x {
-    color: var(--color-player-x);
-    text-shadow: 0 0 20px rgba(236, 72, 153, 0.6);
-}
-
-/* Player O styling */
-.cell.player-o {
-    color: var(--color-player-o);
-    text-shadow: 0 0 20px rgba(6, 182, 212, 0.6);
-}
-
-/* ============================================
-   WINNER LINE CANVAS
-   ============================================ */
-#line-winner {
-    position: absolute;
-    top: 0;
-    left: 0;
+#game-canvas {
     width: 100%;
     height: 100%;
-    pointer-events: none;
-    z-index: 10;
-    border-radius: var(--radius-lg);
+    display: block;
+    cursor: default;
+}
+
+#game-canvas.grabbing {
+    cursor: grabbing !important;
+}
+
+/* ============================================
+   GAME INSTRUCTIONS
+   ============================================ */
+.game-instructions {
+    text-align: center;
+    margin-top: var(--spacing-sm);
+    color: var(--color-text-muted);
+    font-size: 0.875rem;
+    opacity: 0.7;
+    letter-spacing: 0.05em;
 }
 
 /* ============================================
