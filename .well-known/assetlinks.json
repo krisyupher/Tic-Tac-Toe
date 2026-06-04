@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "io.github.krisyupher.twa",
+      "sha256_cert_fingerprints": [
+        "50:EE:7A:0A:00:D4:43:FB:A4:CE:E3:31:54:85:91:8E:8D:07:7D:67:04:58:DB:DC:D4:A2:13:C1:B0:8E:4E:F5"
+      ]
+    }
+  }
+]
