@@ -1,12 +1,8 @@
-[
-  {
-    "relation": ["delegate_permission/common.handle_all_urls"],
-    "target": {
-      "namespace": "android_app",
-      "package_name": "io.github.krisyupher.twa",
-      "sha256_cert_fingerprints": [
-        "50:EE:7A:0A:00:D4:43:FB:A4:CE:E3:31:54:85:91:8E:8D:07:7D:67:04:58:DB:DC:D4:A2:13:C1:B0:8E:4E:F5"
-      ]
-    }
-  }
-]
+[{
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "io.github.krisyupher.tictactoe",
+        "sha256_cert_fingerprints": ["D7:C3:5A:F9:3E:36:86:9A:E3:BE:57:B9:A8:C2:36:0E:38:FA:85:4D:2B:A0:44:EF:6A:64:9C:0D:60:19:BA:7E"]
+      }
+    }]
