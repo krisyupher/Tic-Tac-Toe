@@ -1,0 +1,33 @@
+{
+  "name": "Tic-Tac-Toe — Score 3",
+  "short_name": "Tic-Tac-Toe",
+  "description": "3D and 2D voice-controlled Tic-Tac-Toe. Play by voice against an AI, best of 3.",
+  "start_url": ".",
+  "scope": ".",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#1e1b4b",
+  "theme_color": "#312e81",
+  "lang": "en-US",
+  "categories": ["games"],
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

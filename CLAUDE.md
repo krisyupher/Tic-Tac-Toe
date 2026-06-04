@@ -109,6 +109,18 @@ Key animations:
 ### Responsive Behavior
 The game uses CSS clamp() for fluid typography and `min()` for grid sizing to work across all devices. The layout switches from horizontal (desktop) to vertical (mobile) at 768px breakpoint.
 
+## 2D Voice Mode (Play vs AI by voice)
+
+A second game mode lives alongside the 3D game and is toggled via the **3D / 2D Voice** buttons (`.mode-btn`). It is implemented entirely in the "2D VOICE MODE" section at the bottom of [script.js](script.js) and is kept independent from the 3D logic (separate `board2D`, `score2D`, `gameActive2D`).
+
+- **Players:** You are `X` (voice or click), the AI is `O` and replies automatically after a short delay.
+- **Voice input:** Web Speech API (`SpeechRecognition`/`webkitSpeechRecognition`, `en-US`). The mic button (`#btn-voice`) toggles continuous listening. `parseCell()` maps spoken words to a `{row, col}` using `ROW_WORDS` (top/up, bottom/down), `COL_WORDS` (left/right), and `CENTER_WORDS` (center/middle). Two words pick a cell, e.g. "top center", "middle left", "bottom right"; "center" alone → middle cell. Saying "restart"/"new game" starts a new round.
+- **Spoken feedback:** Speech synthesis (`speak()`) announces the AI's move ("I'll take middle center.") and the round/game result ("You're so good, you won!" / "Better luck next time!").
+- **AI levels** (`chooseAIMove`): `easy` = random; `medium` = win/block then center > corners > edges (`heuristicMove`); `hard` = full `minimax` (O maximizes). Selected via `.diff-btn` (Initial / Medium / High).
+- **Winner detection:** `WIN_LINES_2D` (8 lines) via `winnerOf2D()`/`checkResult2D()`. Reuses the shared score panel and champion overlay (best of 3). Switching modes clears the shared score display and resets the round.
+
+Graceful degradation: if the browser lacks SpeechRecognition the mic button is disabled with a notice; clicking cells still works.
+
 ## File Responsibilities
 
 - **[index.html](index.html):** Structure with Three.js CDN links, single canvas element for 3D rendering, score panels, game instructions, and champion overlay
