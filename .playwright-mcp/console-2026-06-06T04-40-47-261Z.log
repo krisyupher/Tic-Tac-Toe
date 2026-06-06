@@ -1,0 +1,2 @@
+[    3765ms] [ERROR] Failed to load resource: the server responded with a status of 404 (File not found) @ http://localhost:8000/%C3%A2%E2%82%AC%C2%9Dscript.js%C3%A2%E2%82%AC%C2%9D:0
+[    3794ms] [ERROR] Failed to load resource: the server responded with a status of 404 (File not found) @ http://localhost:8000/favicon.ico:0

@@ -1,53 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description"
-        content="Play an exciting game of Tic-Tac-Toe! First to win 3 rounds becomes the champion. Beautiful design with smooth animations.">
-    <title>Tic-Tac-Toe - Score 3</title>
-
-    <!-- PWA -->
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#312e81">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Tic-Tac-Toe">
-    <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
-    <link rel="apple-touch-icon" href="icons/icon-192.png">
-
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Rock+Salt&display=swap"
-        rel="stylesheet">
+    <title>Tic-Tac-Toe Voice</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Rock+Salt&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
 </head>
-
 <body>
     <div class="app">
         <div class="grid-container">
-            <h2>Score 3</h2>
-
-            <div class="mode-toggle">
-                <button class="mode-btn active" id="mode-3d" data-mode="3d">3D</button>
-                <button class="mode-btn" id="mode-2d" data-mode="2d">2D Voice</button>
-            </div>
-
-            <!-- 3D view (existing) -->
-            <div class="grid" id="view-3d">
-                <canvas id="game-canvas"></canvas>
-            </div>
-
-            <!-- 2D voice view (new) -->
-            <div class="view-2d" id="view-2d" hidden>
-                <div class="board-2d" id="board-2d"></div>
-            </div>
-
-            <p class="game-instructions" id="instructions-3d">Hold SPACE to rotate • Scroll to zoom (hides front layer) • Click cells to play</p>
-
-            <div class="voice-controls" id="voice-controls" hidden>
+            <h2>Tic-Tac-Toe</h2>
+            <div class="board-2d" id="board-2d"></div>
+            <div class="voice-controls">
                 <div class="difficulty">
                     <span class="difficulty-label">AI level</span>
                     <div class="difficulty-options">
@@ -56,40 +21,11 @@
                         <button class="diff-btn" data-level="hard">High</button>
                     </div>
                 </div>
-                <button class="btn-voice" id="btn-voice">🎤 Speak your move</button>
-                <p class="voice-status" id="voice-status">Say a cell like “top center”, “middle left”, “bottom right”.</p>
+                <button class="btn-voice" id="btn-voice">Speak your move</button>
+                <p class="voice-status" id="voice-status">Say a cell like top center, middle left, bottom right.</p>
             </div>
         </div>
-
-        <div class="score-panel">
-            <div class="score-row">
-                <span>CIRCLE</span>
-                <div class="score-marks" id="score-o"></div>
-            </div>
-            <div class="score-row">
-                <span>TAILS</span>
-                <div class="score-marks" id="score-x"></div>
-            </div>
-            <button class="btn-restart" id="btn-restart">Restart</button>
-        </div>
     </div>
-
-    <div class="champion-overlay" id="champion-overlay">
-        <div class="champion-text" id="champion-text"></div>
-        <button class="btn-restart" id="btn-return">Return</button>
-    </div>
-
     <script src="script.js"></script>
-
-    <!-- Register the service worker for offline support / installability -->
-    <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('service-worker.js')
-                    .catch((err) => console.warn('Service worker registration failed:', err));
-            });
-        }
-    </script>
 </body>
-
 </html>

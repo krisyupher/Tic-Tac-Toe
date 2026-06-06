@@ -65,17 +65,21 @@
 /* ============================================
    GLOBAL STYLES
    ============================================ */
+html {
+    overflow: hidden;
+}
+
 body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
         'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     color: var(--color-text-primary);
-    overflow: hidden;
-    height: 100vh;
-    width: 100vw;
+    min-height: 100vh;
+    width: 100%;
     margin: 0;
     padding: 0;
+    overflow: hidden;
     background: linear-gradient(135deg,
             #1e1b4b 0%,
             #312e81 25%,
@@ -87,9 +91,6 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    position: absolute;
-    top: 0;
-    left: 0;
 }
 
 /* Animated gradient background */
@@ -180,111 +181,21 @@ h6 {
 }
 
 /* ============================================
-   GAME GRID
-   ============================================ */
-.grid {
-    width: min(90vw, 500px);
-    height: min(90vw, 500px);
-    position: relative;
-    background: var(--glass-bg);
-    backdrop-filter: blur(10px);
-    border-radius: var(--radius-lg);
-    border: 2px solid var(--glass-border);
-    box-shadow: var(--shadow-lg), var(--shadow-glow);
-    overflow: hidden;
-    transition: transform var(--transition-normal), box-shadow var(--transition-normal);
-}
-
-.grid:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-lg), 0 0 40px rgba(139, 92, 246, 0.5);
-}
-
-
-/* ============================================
-   3D GAME CANVAS
-   ============================================ */
-#game-canvas {
-    width: 100%;
-    height: 100%;
-    display: block;
-    cursor: default;
-}
-
-#game-canvas.grabbing {
-    cursor: grabbing !important;
-}
-
-/* ============================================
-   GAME INSTRUCTIONS
-   ============================================ */
-.game-instructions {
-    text-align: center;
-    margin-top: var(--spacing-sm);
-    color: var(--color-text-muted);
-    font-size: 0.875rem;
-    opacity: 0.7;
-    letter-spacing: 0.05em;
-}
-
-/* ============================================
-   MODE TOGGLE (3D / 2D Voice)
-   ============================================ */
-.mode-toggle {
-    display: flex;
-    gap: 0.25rem;
-    padding: 0.3rem;
-    background: var(--glass-bg);
-    backdrop-filter: blur(10px);
-    border: 1px solid var(--glass-border);
-    border-radius: var(--radius-md);
-}
-
-.mode-btn {
-    border: none;
-    background: transparent;
-    color: var(--color-text-muted);
-    font-family: inherit;
-    font-size: 0.95rem;
-    font-weight: 600;
-    letter-spacing: 0.05em;
-    padding: 0.5rem 1.25rem;
-    border-radius: var(--radius-sm);
-    cursor: pointer;
-    transition: all var(--transition-normal);
-}
-
-.mode-btn:hover {
-    color: var(--color-text-secondary);
-}
-
-.mode-btn.active {
-    background: linear-gradient(135deg, var(--color-accent-primary), var(--color-accent-secondary));
-    color: var(--color-text-primary);
-    box-shadow: var(--shadow-sm);
-}
-
-/* ============================================
    2D VOICE BOARD
    ============================================ */
-.view-2d {
+.board-2d {
     width: min(90vw, 500px);
     height: min(90vw, 500px);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: var(--spacing-sm);
     background: var(--glass-bg);
     backdrop-filter: blur(10px);
     border-radius: var(--radius-lg);
     border: 2px solid var(--glass-border);
     box-shadow: var(--shadow-lg), var(--shadow-glow);
     padding: var(--spacing-sm);
-}
-
-.board-2d {
-    width: 100%;
-    height: 100%;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(3, 1fr);
-    gap: var(--spacing-sm);
 }
 
 .cell-2d {
@@ -454,216 +365,6 @@ h6 {
 }
 
 /* ============================================
-   SCORE PANEL
-   ============================================ */
-.score-panel {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-md);
-    padding: var(--spacing-lg);
-    background: var(--glass-bg);
-    backdrop-filter: blur(10px);
-    border-radius: var(--radius-lg);
-    border: 2px solid var(--glass-border);
-    box-shadow: var(--shadow-md);
-    min-width: 280px;
-}
-
-.score-row {
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-sm);
-    padding: var(--spacing-sm);
-    background: rgba(255, 255, 255, 0.03);
-    border-radius: var(--radius-md);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    transition: all var(--transition-normal);
-}
-
-.score-row:hover {
-    background: rgba(255, 255, 255, 0.05);
-    transform: translateX(4px);
-}
-
-.score-row span {
-    font-size: 1.25rem;
-    font-weight: 600;
-    min-width: 100px;
-    color: var(--color-text-secondary);
-    letter-spacing: 0.05em;
-}
-
-.score-marks {
-    display: flex;
-    gap: 0.25rem;
-}
-
-.score-mark {
-    font-size: 1.5rem;
-    font-family: "Rock Salt", cursive;
-    animation: scoreAppear 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-}
-
-/* Score appearance animation */
-@keyframes scoreAppear {
-    0% {
-        transform: scale(0) rotate(-180deg);
-        opacity: 0;
-    }
-
-    100% {
-        transform: scale(1) rotate(0deg);
-        opacity: 1;
-    }
-}
-
-/* Player-specific colors in score */
-.score-mark.player-x {
-    color: var(--color-player-x);
-    text-shadow: 0 0 10px rgba(236, 72, 153, 0.5);
-}
-
-.score-mark.player-o {
-    color: var(--color-player-o);
-    text-shadow: 0 0 10px rgba(6, 182, 212, 0.5);
-}
-
-/* ============================================
-   BUTTONS
-   ============================================ */
-.btn-restart {
-    background: linear-gradient(135deg, var(--color-accent-primary), var(--color-accent-secondary));
-    border: none;
-    border-radius: var(--radius-md);
-    padding: var(--spacing-sm) var(--spacing-lg);
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: var(--color-text-primary);
-    cursor: pointer;
-    outline: none;
-    transition: all var(--transition-normal);
-    box-shadow: var(--shadow-md);
-    position: relative;
-    overflow: hidden;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-}
-
-.btn-restart::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 0;
-    height: 0;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.2);
-    transform: translate(-50%, -50%);
-    transition: width var(--transition-slow), height var(--transition-slow);
-}
-
-.btn-restart:hover::before {
-    width: 300px;
-    height: 300px;
-}
-
-.btn-restart:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-lg), 0 0 30px rgba(139, 92, 246, 0.6);
-}
-
-.btn-restart:active {
-    transform: translateY(0);
-}
-
-/* ============================================
-   CHAMPION OVERLAY
-   ============================================ */
-.champion-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(30, 27, 75, 0.95);
-    backdrop-filter: blur(20px);
-    display: none;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: var(--spacing-xl);
-    z-index: 100;
-    animation: overlayFadeIn 0.5s ease-out;
-    padding: var(--spacing-lg);
-}
-
-.champion-overlay.show {
-    display: flex;
-}
-
-@keyframes overlayFadeIn {
-    from {
-        opacity: 0;
-        backdrop-filter: blur(0px);
-    }
-
-    to {
-        opacity: 1;
-        backdrop-filter: blur(20px);
-    }
-}
-
-.champion-overlay::before {
-    content: '🎉';
-    position: absolute;
-    font-size: 10rem;
-    opacity: 0.1;
-    animation: celebrate 2s ease-in-out infinite;
-}
-
-@keyframes celebrate {
-
-    0%,
-    100% {
-        transform: scale(1) rotate(0deg);
-    }
-
-    50% {
-        transform: scale(1.2) rotate(10deg);
-    }
-}
-
-.champion-text {
-    font-size: clamp(2rem, 8vw, 5rem);
-    font-weight: 700;
-    background: linear-gradient(135deg,
-            var(--color-accent-primary),
-            var(--color-accent-secondary),
-            var(--color-accent-tertiary));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    text-align: center;
-    animation: championPulse 2s ease-in-out infinite;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-}
-
-@keyframes championPulse {
-
-    0%,
-    100% {
-        transform: scale(1);
-        filter: brightness(1);
-    }
-
-    50% {
-        transform: scale(1.05);
-        filter: brightness(1.2);
-    }
-}
-
-/* ============================================
    RESPONSIVE DESIGN
    ============================================ */
 @media (max-width: 768px) {
@@ -672,44 +373,23 @@ h6 {
         gap: var(--spacing-lg);
     }
 
-    .score-panel {
-        width: 100%;
-        max-width: min(90vw, 500px);
-    }
-
     .grid-container h2 {
         font-size: 2rem;
-    }
-
-    .cell {
-        font-size: 3rem;
     }
 }
 
 @media (max-width: 480px) {
-    .grid {
+    .board-2d {
+        gap: 0.25rem;
         padding: 0.25rem;
     }
 
-    .row {
-        gap: 0.25rem;
-    }
-
-    .cell {
+    .cell-2d {
         font-size: 2.5rem;
         border-radius: var(--radius-sm);
     }
 
-    .score-row span {
-        font-size: 1rem;
-        min-width: 80px;
-    }
-
-    .score-mark {
-        font-size: 1.25rem;
-    }
-
-    .btn-restart {
+    .btn-voice {
         font-size: 1rem;
         padding: var(--spacing-sm) var(--spacing-md);
     }

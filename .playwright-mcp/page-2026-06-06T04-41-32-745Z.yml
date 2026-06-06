@@ -1,0 +1,11 @@
+- generic [ref=e3]:
+  - heading "Tic-Tac-Toe" [level=2] [ref=e4]
+  - generic [ref=e5]:
+    - generic [ref=e6]:
+      - text: AI level
+      - generic [ref=e7]:
+        - button "Initial" [ref=e8]
+        - button "Medium" [ref=e9]
+        - button "High" [ref=e10]
+    - button "ðŸŽ¤ Speak your move" [ref=e11]
+    - paragraph [ref=e12]: "Say a cell like â€œtop centerâ€\x9d, â€œmiddle leftâ€\x9d, â€œbottom rightâ€\x9d."
