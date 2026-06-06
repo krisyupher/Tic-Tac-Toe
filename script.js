@@ -17,6 +17,66 @@ const btnVoice = document.getElementById('btn-voice');
 const ROW_NAMES = ['top', 'middle', 'bottom'];
 const COL_NAMES = ['left', 'center', 'right'];
 
+/* Message banks for different scenarios */
+const MESSAGES = {
+    aiWins: [
+        "My grandmother plays better than you.",
+        "Was that your best move?",
+        "You call that a challenge?",
+        "Too easy.",
+        "I barely tried.",
+        "You got lucky I let you last that long.",
+        "Better luck next time.",
+        "Come back when you're ready.",
+        "I expected more from you.",
+        "Is that all you got?",
+        "My cat could beat you.",
+        "I won with one hand tied.",
+        "You were close… almost.",
+        "That was painful to watch.",
+        "Thanks for the free win."
+    ],
+    playerWins: [
+        "You only won by luck.",
+        "I was warming up.",
+        "My controller betrayed me.",
+        "That doesn't count.",
+        "I let you win.",
+        "The game was on your side.",
+        "You got lucky this time.",
+        "Rematch. No excuses.",
+        "I wasn't even serious.",
+        "Enjoy your lucky victory."
+    ],
+    beforeMatch: [
+        "Ready to lose again?",
+        "Are you sure you want to do this?",
+        "Prepare for defeat.",
+        "This will be quick.",
+        "Hope you practiced.",
+        "Last chance to quit.",
+        "You picked the wrong opponent.",
+        "Let's see what you've got.",
+        "Try not to cry this time.",
+        "I hope you're ready."
+    ],
+    funny: [
+        "May the best player win… probably me.",
+        "Don't worry, losing builds character.",
+        "I'll try to make this fair.",
+        "I apologize in advance.",
+        "This might hurt your ego.",
+        "The scoreboard doesn't lie."
+    ],
+    didntUnderstand: [
+        "I didn't understand you… and I still won.",
+        "Your words are as confusing as your strategy.",
+        "Try saying that after you win.",
+        "Was that a challenge or a question?",
+        "Interesting… I have no idea what you just said."
+    ]
+};
+
 // Initialize game
 function init() {
     // Difficulty buttons
@@ -240,7 +300,7 @@ function endRound2D(result) {
 
     if (result.draw) {
         setVoiceStatus("It's a draw!");
-        speak(pick(["It's a draw!", "A tie! Nobody wins this one."]));
+        speak(pick([...MESSAGES.funny, "It's a draw!", "A tie! Nobody wins this one."]));
         setTimeout(resetBoard2D, 2000);
         return;
     }
@@ -251,10 +311,10 @@ function endRound2D(result) {
     const w = result.winner;
     if (w === 'X') {
         setVoiceStatus('You win this round! 🎉');
-        speak(pick(["You're so good, you won!", "Nice one! That round is yours.", "Impressive! You win this round."]));
+        speak(pick(MESSAGES.playerWins));
     } else {
         setVoiceStatus('The AI wins this round.');
-        speak(pick(["Better luck next time!", "I win that round. Try again.", "Too easy for me!"]));
+        speak(pick(MESSAGES.aiWins));
     }
 
     setTimeout(resetBoard2D, 2000);
@@ -270,6 +330,7 @@ function resetBoard2D() {
         cell.className = 'cell-2d';
     });
     setVoiceStatus('Say a cell like "top center", "middle left", "bottom right".');
+    speak(pick(MESSAGES.beforeMatch));
 }
 
 /* ---------- Voice recognition (Web Speech API) ---------- */
@@ -300,6 +361,7 @@ function setupSpeechRecognition() {
             }
             if (!handled) {
                 setVoiceStatus(`Heard "${result[0].transcript.trim()}" — say e.g. "top center".`);
+                speak(pick(MESSAGES.didntUnderstand));
             }
         }
     };
