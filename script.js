@@ -12,7 +12,7 @@ let voiceSupported = false;
 // DOM elements
 const board2DEl = document.getElementById('board-2d');
 const voiceStatus = document.getElementById('voice-status');
-const btnVoice = document.getElementById('btn-voice');
+const btnReset = document.getElementById('btn-reset');
 
 const ROW_NAMES = ['top', 'middle', 'bottom'];
 const COL_NAMES = ['left', 'center', 'right'];
@@ -79,31 +79,33 @@ const MESSAGES = {
 
 // Initialize game
 function init() {
-    // Difficulty buttons
-    document.querySelectorAll('.diff-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            aiLevel = btn.dataset.level;
-            document.querySelectorAll('.diff-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-        });
-    });
-
     buildBoard2D();
     setupSpeechRecognition();
-    btnVoice.addEventListener('click', toggleListening);
+
+    // The only visible interaction: Reset (resets the AI and the game).
+    // It also doubles as the user gesture that (re)starts voice listening.
+    btnReset.addEventListener('click', () => {
+        fullReset();
+        startListening();
+    });
+
+    // Voice is the primary input — start listening as soon as we can.
+    startListening();
 }
 
-// Build the 9 cell elements once
+// Build the 9 cell elements once.
+// Cells are display-only divs — the game is voice-driven, so there is no
+// mouse/keyboard interaction here. Moves still flow through playerMove2D(),
+// which stays available "in the background" for voice (or future re-enabling).
 function buildBoard2D() {
     board2DEl.innerHTML = '';
     for (let row = 0; row < 3; row++) {
         for (let col = 0; col < 3; col++) {
-            const cell = document.createElement('button');
+            const cell = document.createElement('div');
             cell.className = 'cell-2d';
             cell.dataset.row = row;
             cell.dataset.col = col;
             cell.setAttribute('aria-label', `${ROW_NAMES[row]} ${COL_NAMES[col]}`);
-            cell.addEventListener('click', () => playerMove2D(row, col));
             board2DEl.appendChild(cell);
         }
     }
@@ -339,8 +341,7 @@ function setupSpeechRecognition() {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     if (!SpeechRecognition) {
         voiceSupported = false;
-        btnVoice.disabled = true;
-        btnVoice.textContent = '🎤 Voice not supported';
+        setVoiceStatus('🎤 Voice is not supported in this browser. Use Reset to start a new game.');
         return;
     }
 
@@ -382,43 +383,81 @@ function setupSpeechRecognition() {
     };
 }
 
-function toggleListening() {
-    if (isListening) {
-        stopListening();
-    } else {
-        startListening();
-    }
-}
-
 function startListening() {
     if (!voiceSupported || isListening) return;
     isListening = true;
-    btnVoice.classList.add('listening');
-    btnVoice.textContent = '🛑 Stop listening';
-    setVoiceStatus('Listening… say a cell.');
+    setVoiceStatus('Listening… say a cell, a difficulty, or "reset".');
     try { recognition.start(); } catch (e) { /* already started */ }
 }
 
 function stopListening() {
     if (!isListening) return;
     isListening = false;
-    btnVoice.classList.remove('listening');
-    btnVoice.textContent = '🎤 Speak your move';
     if (recognition) {
         try { recognition.stop(); } catch (e) { /* ignore */ }
     }
 }
 
-// Parse a spoken phrase into a move. Returns true if it produced an action.
+// Parse a spoken phrase into an action. Returns true if it produced one.
+// Order of intent: reset command > difficulty command > cell move.
 function handleTranscript(transcript) {
     const text = transcript.toLowerCase().trim();
     const tokens = text.replace(/[^a-z\s]/g, ' ').split(/\s+/).filter(Boolean);
 
+    // "reset" / "new game" / "restart" / "start over" → full reset
+    if (text.includes('new game') || text.includes('start over') ||
+        tokens.some(t => RESET_WORDS.has(t))) {
+        fullReset();
+        return true;
+    }
+
+    // "easy" / "medium" / "hard" (and synonyms) → change the AI level
+    const level = parseDifficulty(tokens);
+    if (level) {
+        setDifficulty(level);
+        return true;
+    }
+
+    // Otherwise, a cell to play
     const cell = parseCell(tokens);
     if (!cell) return false;
 
     setVoiceStatus(`Heard: ${ROW_NAMES[cell.row]} ${COL_NAMES[cell.col]}`);
     return playerMove2D(cell.row, cell.col);
+}
+
+// Spoken words that map to a difficulty level
+const DIFFICULTY_WORDS = {
+    easy: 'easy', initial: 'easy', beginner: 'easy', simple: 'easy',
+    medium: 'medium', normal: 'medium', intermediate: 'medium',
+    hard: 'hard', high: 'hard', difficult: 'hard', expert: 'hard', impossible: 'hard',
+};
+
+const RESET_WORDS = new Set(['reset', 'restart', 'clear']);
+
+function parseDifficulty(tokens) {
+    for (const t of tokens) {
+        if (t in DIFFICULTY_WORDS) return DIFFICULTY_WORDS[t];
+    }
+    return null;
+}
+
+const DIFFICULTY_LABELS = { easy: 'easy', medium: 'medium', hard: 'hard' };
+
+function setDifficulty(level) {
+    aiLevel = level;
+    setVoiceStatus(`AI level set to ${DIFFICULTY_LABELS[level]}.`);
+    speak(`Okay, ${DIFFICULTY_LABELS[level]} it is.`);
+}
+
+// Reset the AI (cancel its turn, back to the default level) and the game (clear
+// the board). Triggered by the Reset button or by saying "reset" / "new game".
+function fullReset() {
+    cancelSpeech();
+    aiThinking = false;
+    aiLevel = 'medium';
+    resetBoard2D();
+    setVoiceStatus('Game reset. Say a cell to play, or "easy" / "medium" / "hard".');
 }
 
 // Map spoken words to a { row, col }
